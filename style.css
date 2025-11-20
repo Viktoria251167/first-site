@@ -65,7 +65,6 @@
         .contact-list li {
             margin-bottom: 10px;
             display: flex;
-            align-items: center;
         }
 
         a {
@@ -175,6 +174,33 @@
         .button input[type="submit"]:hover{
             background: #667eea;
         }
+
+        @media (max-width: 800px) {
+
+  .content {
+    height: 100%;
+    flex-direction: column-reverse; 
+  }
+
+
+  .left-side {
+    margin-top: 50px;
+    flex-direction: row; 
+    width: 100%; 
+    justify-content: center;
+    flex-wrap: wrap; 
+  }
+  .details {
+    margin-right: 20px;
+  }
+  .details:last-child {
+    margin-right: 0;
+  }
+  .right-side {
+    width: 100%;
+    margin-left: 0;
+  }
+}
 
         
 
