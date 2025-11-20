@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой первый сайт</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -53,12 +54,82 @@
         </section>
 
         <section class="section">
-            <h2>Контакты</h2>
+            <h2>Мои соцсети</h2>
             <ul class="contact-list">
-                <li> Телефон: <a href="tel:8-980-551-57-92">8-980-551-57-92</a></li>
                 <li> VK: <a href="https://vk.com/victoria__tachik" target="_blank">vk.com/victoria__tachik</a></li>
-            </ul>
+                <li> Telegram: <a href="https://t.me/+cEoLoDkM6MJmY2Ey" target="_blank">vk.com/victoria__tachik</a></li>
         </section>
+    </div>
+    <div class="container2">
+        <div class="content">
+            <div class="left-side">
+                <div class="address details">
+                    <i class="fas fa-home"></i>
+                    <div class="topic">Адрес</div>
+                    <div class="text-one">г. Воронеж</div>
+                </div>
+                <div class="phone details">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="topic">Телефон</div>
+                    <div class="text-one">8-980-551-57-92</div>
+                </div>
+                <div class="email details">
+                    <i class="fas fa-envelope"></i>
+                    <div class="topic">Email</div>
+                    <div class="text-one">tachikv@rambler.ru</div>
+                </div>
+            </div>
+            <div class="right-side">
+                <div class="topic-text">Отправьте мне сообщение</div>
+                <p>Если Вам грустно и Вы хотите испортить настроение и мне, то не заполняйте форму ниже.</p>
+                <form action="#" id="form" name="form">
+                    <div class="input-box">
+                        <input 
+                        type="text" 
+                        placeholder="Введите ваше имя" 
+                        id="name" 
+                        name="name" 
+                        data-reg="^[А-ЯЁ][а-яё]*$">
+                        <label for="name">Только русские буквы</label>
+                    </div>
+
+                    <div class="input-box">
+                        <input 
+                        type="text" 
+                        placeholder="Введите email" 
+                        id="email" 
+                        name="email" 
+                        data-reg="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$">
+                        <label for="email">Формат: petya@mail.com</label>
+                    </div>
+
+                    <div class="input-box">
+                        <input 
+                        type="text" 
+                        placeholder="Введите телефон" 
+                        id="phone" 
+                        name="phone" 
+                        data-reg="^((\+7|7|8)+([0-9]){10})$">
+                        <label for="phone">Формат: +71234562233, 71234562233, 81234562233</label>
+                    </div>
+
+                    <div class="input-box message-box">
+                        <textarea 
+                        placeholder="Сообщение" 
+                        required name="message"
+                        ></textarea>
+                    </div>
+                    <div class="button">
+                        <input 
+                        type="submit" 
+                        value="Отправить" 
+                        id="button" 
+                        name="button">
+                    </div>
+                </form>
+            </div>
+            <script src="script.js"></script>
+        </div>
     </div>
 </body>
 </html>
