@@ -89,7 +89,7 @@
                         placeholder="Введите ваше имя" 
                         id="name" 
                         name="name" 
-                        data-reg="^[А-ЯЁ][а-яё]*$">
+                        data-reg="^[а-яА-ЯёЁa-zA-Z ]{2,}$">
                         <label for="name">Только русские буквы</label>
                     </div>
 
@@ -116,7 +116,8 @@
                     <div class="input-box message-box">
                         <textarea 
                         placeholder="Сообщение" 
-                        required name="message"
+                        name="message"
+                        data-reg=".{1,}"
                         ></textarea>
                     </div>
                     <div class="button">
