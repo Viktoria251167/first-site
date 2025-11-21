@@ -44,6 +44,9 @@ function buttonHandler(e) {
     if (!Boolean(Number(isValid))) {
         e.preventDefault();
         alert('Заполните обязательные поля');
+    }else {
+        e.preventDefault();
+        alert('Спасибо за уделенное время! Возможно скоро я вам отвечу');
     }
 }
 
