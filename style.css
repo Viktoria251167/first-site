@@ -149,6 +149,7 @@
             resize: none;
             font-family: "Roboto", sans-serif; 
             padding: 20px;
+            height: 100px;
         }
 
         .message-box{
@@ -169,11 +170,31 @@
             padding: 10px 20px;
             border-radius: 5px;
             transition: 0.2s;
+            cursor: pointer;
         }
 
         .button input[type="submit"]:hover{
             background: #667eea;
         }
+       
+        .form-message {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
 
         @media (max-width: 800px) {
 

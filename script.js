@@ -1,87 +1,106 @@
-const form = document.forms["form"];
-const button = form.elements["button"];
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('form');
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    // Создаем контейнер для сообщений
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'form-message';
+    form.parentNode.appendChild(messageContainer);
 
-const inputArr = Array.from(form);
-const validInputArr = [];
-
-// Создаем элемент для сообщений
-const messageDiv = document.createElement('div');
-messageDiv.style.cssText = `
-    margin-top: 15px;
-    padding: 12px;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
-    min-height: 20px;
-`;
-button.parentNode.insertBefore(messageDiv, button.nextSibling);
-
-inputArr.forEach((el) => {
-    if (el.hasAttribute("data-reg")) {
-        el.setAttribute("is-valid", "0");
-        validInputArr.push(el)
+    // Функция проверки поля
+    function validateField(field) {
+        const regex = new RegExp(field.dataset.reg);
+        const value = field.value.trim();
+        const isValid = regex.test(value);
+        
+        // Сбрасываем предыдущие стили
+        field.style.border = '2px solid ';
+        
+        if (value === '' || !isValid) {
+            field.style.borderColor = '#ff3860';
+            return false;
+        } else {
+            field.style.borderColor = '#009579';
+            return true;
+        }
     }
+
+    // Функция показа сообщения
+    function showMessage(type, data = null) {
+        if (type === 'success') {
+            messageContainer.className = 'form-message success-message';
+            messageContainer.innerHTML = `
+                Спасибо, <strong>${data.name}</strong>, за уделенное время и Ваш комментарий "<em>${data.message}</em>"! 
+                Возможно скоро я свяжусь с вами по адресу <strong>${data.email}</strong>.
+            `;
+        } else {
+            messageContainer.className = 'form-message error-message';
+            messageContainer.textContent = 'Кажется Вы заполнили не все поля, или же что-то заполнено неверно.';
+        }
+        
+        // Показываем контейнер
+        messageContainer.style.display = 'block';
+    }
+
+    // Скрываем сообщение
+    function hideMessage() {
+        messageContainer.style.display = 'none';
+    }
+
+    // Функция очистки полей
+    function clearFormFields() {
+        inputs.forEach(input => {
+            if (input.name !== 'button') {
+                input.value = ''; // Очищаем поле
+                input.style.border = 'none'; // Убираем рамку
+            }
+        });
+    }
+
+    // Валидация в реальном времени
+    inputs.forEach(input => {
+        // Пропускаем кнопку отправки
+        if (input.name === 'button') return;
+        
+        input.addEventListener('blur', function() {
+            validateField(this);
+            // Убираем скрытие сообщения при редактировании
+        });
+        
+        input.addEventListener('input', function() {
+            // Проверяем поле только если оно уже было проверено (имеет цветную рамку)
+            if (this.style.borderColor !== '') {
+                validateField(this);
+            }
+            // Убираем скрытие сообщения при вводе
+        });
+    });
+
+    // Обработка отправки формы
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let isFormValid = true;
+        const formData = {};
+        
+        // Проверяем все поля
+        inputs.forEach(input => {
+            if (input.name !== 'button') {
+                const isValid = validateField(input);
+                if (!isValid) {
+                    isFormValid = false;
+                } else {
+                    formData[input.name] = input.value.trim();
+                }
+            }
+        });
+        
+        if (isFormValid) {
+            showMessage('success', formData);
+            clearFormFields(); // Очищаем поля формы
+            
+        } else {
+            showMessage('error');
+        }
+    });
 });
-
-form.addEventListener("input", inputHandler);
-button.addEventListener("click", buttonHandler);
-
-function inputHandler({target}){
-    if (target.hasAttribute("data-reg")) {
-        inputCheck(target);
-    }
-}
-
-function inputCheck(el) {
-    const inputValue = el.value;
-    const inputReg = el.getAttribute("data-reg");
-    const reg = new RegExp(inputReg);
-    if (reg.test(inputValue)) {
-        el.style.border = "2px solid rgb(0,196,0)";
-        el.setAttribute("is-valid", "1");
-    } else {
-        el.style.border = "2px solid rgba(255, 0, 0)";
-        el.setAttribute("is-valid", "0");
-    }
-}
-
-function buttonHandler(e) {
-    e.preventDefault();
-    
-    const isAllValid = [];
-    validInputArr.forEach((el) => {
-        isAllValid.push(el.getAttribute("is-valid"));
-    });
-    const isValid = isAllValid.reduce((acc, current) => {
-        return acc && current;
-    });
-    
-    if (!Boolean(Number(isValid))) {
-        showMessage('Заполните обязательные поля!', 'error');
-    } else {
-        // Получаем данные из всех полей
-        const nameInput = form.querySelector('input[data-reg][type="text"], input[name="name"]');
-        const emailInput = form.querySelector('input[data-reg][type="email"], input[name="email"]');
-        const commentInput = form.querySelector('textarea[data-reg], textarea[name="comment"], textarea[name="message"]');
-        
-        const userName = nameInput ? nameInput.value : 'пользователь';
-        const userEmail = emailInput ? emailInput.value : 'не указан';
-        const userComment = commentInput ? commentInput.value : 'комментарий не указан';
-        
-        showMessage(`Спасибо, ${userName}, за уделенное время и Ваш комментарий "${userComment}"! Возможно скоро я свяжусь с вами по адресу: ${userEmail}.`, 'success');
-    }
-}
-
-function showMessage(text, type) {
-    messageDiv.textContent = text;
-    
-    if (type === 'error') {
-        messageDiv.style.backgroundColor = '#f8d7da';
-        messageDiv.style.color = '#721c24';
-        messageDiv.style.border = '1px solid #f5c6cb';
-    } else if (type === 'success') {
-        messageDiv.style.backgroundColor = '#d4edda';
-        messageDiv.style.color = '#155724';
-        messageDiv.style.border = '1px solid #c3e6cb';
-    }
-}
